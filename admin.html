@@ -1,0 +1,32 @@
+<link rel="stylesheet" href="{tmp.eff_plugin_url}admin.css?v={tmp.eff_plugin_version}" type="text/css" />
+<div class="efm-exemple-relative">
+    <div class="wrap">
+        <h1>Setting Echbay Flatsome Box</h1>
+        <br>
+        <form name="echbay_config_for_efm" id="echbay_config_for_efm" method="post" action="" class="validate" target="target_eb_plugins_iframe">
+            <input type="hidden" id="_ebnonce" name="_ebnonce" value="{tmp._ebnonce}" />
+            <input type="hidden" id="license" name="_eff_license" value="{tmp.license}" />
+            <input type="hidden" id="hide_powered" name="_eff_hide_powered" value="{tmp.hide_powered}" />
+            <p>* Note: Default values will be used if custom values are not set.</p>
+            <table class="form-table">
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="find_and_replace">Find and replace</label></th>
+                    <td><textarea name="_eff_find_and_replace" id="find_and_replace" data-option="{tmp.___EFF___}find_and_replace" placeholder="{aaa.find_and_replace}" style="height:110px;">{tmp.find_and_replace}</textarea>
+                        <pre><code>Find text | Replace text</code></pre></td>
+                </tr>
+            </table>
+            <div class="eb-plugin-submit">
+                <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes" />
+            </div>
+        </form>
+    </div>
+</div>
+<iframe id="target_eb_plugins_iframe" name="target_eb_plugins_iframe" src="about:blank" width="750" height="1">AJAX form</iframe>
+<script type="text/javascript">
+if ( document.domain == 'localhost' && typeof jQuery == 'function' ) {
+	jQuery('#target_eb_plugins_iframe').height( 600 ).attr({
+		height: 600
+	});
+}
+</script> 
+<script type="text/javascript" src="{tmp.eff_plugin_url}admin.js?v={tmp.eff_plugin_version}"></script> 
