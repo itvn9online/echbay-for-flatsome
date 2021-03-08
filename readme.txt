@@ -12,6 +12,7 @@ Stable tag: 1.0.0
 Version: 1.0.0
 Contributors: itvn9online
 Donate link: https://paypal.me/itvn9online/5
+License: GPLv2 or later
 
 == Description ==
 
