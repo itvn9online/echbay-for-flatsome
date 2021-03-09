@@ -96,18 +96,7 @@ if ( !class_exists( 'EFF_Actions_Module' ) ) {
          * begin
          */
         function load() {
-            $this->default_setting = array(
-                'find_and_replace' => '',
-                'admin_email' => get_option( 'admin_email' ),
-                //'admin_email' => '',
-                'email' => 'admin@' . $_SERVER[ 'HTTP_HOST' ],
-                //'email' => '',
-                'hotline' => '',
-                'phone' => '',
-                'company' => '',
-                'address' => '',
-                'fax' => '',
-            );
+            $this->default_setting = EFF_default_setting();
 
             /*
              * test in localhost
@@ -468,22 +457,52 @@ function EFF_replace_for_echbay_tmp( $str, $custom_arr = [] ) {
 
     //
     $key = '___EFF___';
+    $default_setting = EFF_default_setting();
 
     // default
     $arr = [
-        'global-footer-copyright' => '<div class="global-footer-copyright">Bản quyền &copy; ' . date( 'Y' ) . ' <span>' . get_option( 'blogname' ) . '</span> - Toàn bộ phiên bản. <span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span></div>',
         'admin_email' => get_option( 'admin_email' ),
 
+        //'global-footer-copyright' => '<div class="global-footer-copyright">Bản quyền &copy; ' . date( 'Y' ) . ' <span>' . get_option( 'blogname' ) . '</span> - Toàn bộ phiên bản. <span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span></div>',
+
         //
+        'copyright' => get_option( $key . 'copyright' ),
+        'author' => get_option( $key . 'author' ),
         'cf_email' => get_option( $key . 'email' ),
         'cf_hotline' => get_option( $key . 'hotline' ),
     ];
+    if ( $arr[ 'copyright' ] == '' ) {
+        $arr[ 'copyright' ] = $default_setting[ 'copyright' ];
+    }
+    if ( $arr[ 'author' ] == '' ) {
+        $arr[ 'author' ] = $default_setting[ 'author' ];
+    }
+    $arr[ 'global-footer-copyright' ] = '<div class="global-footer-copyright">' . str_replace( '%current_year%', date( 'Y' ), str_replace( '%blogname%', get_option( 'blogname' ), $arr[ 'copyright' ] ) ) . ' ' . $arr[ 'author' ] . '</div>';
+
+    // replace template content
     foreach ( $arr as $k => $v ) {
         $str = str_replace( '{tmp.' . $k . '}', $v, $str );
     }
 
     //
     return $str;
+}
+
+function EFF_default_setting() {
+    return array(
+        'find_and_replace' => '',
+        'admin_email' => get_option( 'admin_email' ),
+        //'admin_email' => '',
+        'email' => 'admin@' . $_SERVER[ 'HTTP_HOST' ],
+        //'email' => '',
+        'copyright' => 'Bản quyền &copy; %current_year% <span>%blogname%</span> - Toàn bộ phiên bản.',
+        'author' => '<span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span>',
+        'hotline' => '',
+        'phone' => '',
+        'company' => '',
+        'address' => '',
+        'fax' => '',
+    );
 }
 
 
