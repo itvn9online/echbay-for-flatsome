@@ -1,5 +1,5 @@
 <link rel="stylesheet" href="{tmp.eff_plugin_url}admin.css?v={tmp.eff_plugin_version}" type="text/css" />
-<div class="efm-exemple-relative">
+<div class="efm-exemple-relative eff">
     <div class="wrap">
         <h1>Setting Echbay Flatsome Box</h1>
         <br>
@@ -10,23 +10,50 @@
             <p>* Note: Default values will be used if custom values are not set.</p>
             <table class="form-table">
                 <tr class="form-field form-required term-name-wrap">
+                    <th scope="row" class="bold medium">Site info</th>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="admin_email">Admin email</label></th>
+                    <td><input type="email" name="admin_email" id="admin_email" data-option="admin_email" value="" placeholder="{aaa.admin_email}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="email">Contact email</label></th>
+                    <td><input type="email" name="_eff_email" id="email" data-option="{tmp.___EFF___}email" value="{tmp.email}" placeholder="{aaa.email}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="hotline">Hotline</label></th>
+                    <td><input type="tel" name="_eff_hotline" id="hotline" data-option="{tmp.___EFF___}hotline" value="{tmp.hotline}" placeholder="{aaa.hotline}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="phone">Phone number</label></th>
+                    <td><input type="tel" name="_eff_phone" id="phone" data-option="{tmp.___EFF___}phone" value="{tmp.phone}" placeholder="{aaa.phone}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="company">Company name</label></th>
+                    <td><input type="text" name="_eff_company" id="company" data-option="{tmp.___EFF___}company" value="{tmp.company}" placeholder="{aaa.company}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="address">Address</label></th>
+                    <td><input type="text" name="_eff_address" id="address" data-option="{tmp.___EFF___}address" value="{tmp.address}" placeholder="{aaa.address}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row"><label for="fax">Fax</label></th>
+                    <td><input type="text" name="_eff_fax" id="fax" data-option="{tmp.___EFF___}fax" value="{tmp.fax}" placeholder="{aaa.fax}" /></td>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
+                    <th scope="row" class="bold medium">Advanced config</th>
+                </tr>
+                <tr class="form-field form-required term-name-wrap">
                     <th scope="row"><label for="find_and_replace">Find and replace</label></th>
                     <td><textarea name="_eff_find_and_replace" id="find_and_replace" data-option="{tmp.___EFF___}find_and_replace" placeholder="{aaa.find_and_replace}" style="height:110px;">{tmp.find_and_replace}</textarea>
                         <pre><code>Find text | Replace text</code></pre></td>
                 </tr>
             </table>
             <div class="eb-plugin-submit">
-                <input type="submit" name="submit" id="submit" class="button button-primary" value="Save Changes" />
+                <button type="submit" name="submit" id="submit" class="button button-primary">Save Changes</button>
             </div>
         </form>
     </div>
 </div>
 <iframe id="target_eb_plugins_iframe" name="target_eb_plugins_iframe" src="about:blank" width="750" height="1">AJAX form</iframe>
-<script type="text/javascript">
-if ( document.domain == 'localhost' && typeof jQuery == 'function' ) {
-	jQuery('#target_eb_plugins_iframe').height( 600 ).attr({
-		height: 600
-	});
-}
-</script> 
 <script type="text/javascript" src="{tmp.eff_plugin_url}admin.js?v={tmp.eff_plugin_version}"></script> 

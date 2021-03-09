@@ -1,23 +1,31 @@
 .efm-color-picker {
-	padding: 0 3px;
-	margin: 0;
-	height: 30px;
-	width: 90px;
-	cursor: pointer;
-	border: 1px solid #91765d;
-	background: #eee;
+    padding: 0 3px;
+    margin: 0;
+    height: 30px;
+    width: 90px;
+    cursor: pointer;
+    border: 1px solid #91765d;
+    background: #eee;
 }
 .btn-restore-default {
-	display: inline-block;
-	text-decoration: underline;
-	color: #00F;
-	margin-left: 15px;
-	cursor: pointer;
+    display: inline-block;
+    text-decoration: underline;
+    color: #00F;
+    margin-left: 15px;
+    cursor: pointer;
 }
 .eb-plugin-submit {
-	position: fixed;
-	bottom: 25px;
-	right: 25px;
-	z-index: 1;
+    position: fixed;
+    bottom: 25px;
+    right: 25px;
+    z-index: 1;
 }
-.efm-default-hide { display: none; }
+.efm-default-hide {
+    display: none;
+}
+.eff .bold {
+    font-weight: bold;
+}
+.eff .medium {
+    font-size: 15px;
+}

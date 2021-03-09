@@ -71,11 +71,9 @@ if ( !class_exists( 'EFF_Actions_Module' ) ) {
         /*
          * config
          */
-        var $default_setting = array(
-            'find_and_replace' => '',
-        );
+        var $default_setting = [];
 
-        var $custom_setting = array();
+        var $custom_setting = [];
 
         var $eb_plugin_media_version = EFF_DF_VERSION;
 
@@ -98,6 +96,18 @@ if ( !class_exists( 'EFF_Actions_Module' ) ) {
          * begin
          */
         function load() {
+            $this->default_setting = array(
+                'find_and_replace' => '',
+                'admin_email' => get_option( 'admin_email' ),
+                //'admin_email' => '',
+                'email' => 'admin@' . $_SERVER[ 'HTTP_HOST' ],
+                //'email' => '',
+                'hotline' => '',
+                'phone' => '',
+                'company' => '',
+                'address' => '',
+                'fax' => '',
+            );
 
             /*
              * test in localhost
@@ -116,7 +126,7 @@ if ( !class_exists( 'EFF_Actions_Module' ) ) {
             $this->eb_plugin_root_dir = basename( EFF_DF_DIR );
 
             // Get version by time file modife
-            $this->eb_plugin_media_version = filemtime( EFF_DF_DIR . 'style.css' );
+            $this->eb_plugin_media_version = filemtime( __FILE__ );
 
             // URL to this plugin
             //$this->eb_plugin_url = plugins_url () . '/' . EFF_DF_ROOT_DIR . '/';
@@ -187,14 +197,8 @@ ORDER BY
 
             // esc_ custom value
             foreach ( $this->custom_setting as $k => $v ) {
-                //	if ( $k == 'custom_style' || $k == 'widget_title' ) {
-                if ( $k == 'custom_style' ) {
+                if ( $k == 'find_and_replace' ) {
                     $v = esc_textarea( $v );
-                    /*
-	}
-	else if ( $k == 'widget_title' ) {
-		$v = htmlentities( $v, ENT_QUOTES, "UTF-8" );
-		*/
                 } else {
                     $v = esc_html( $v );
                 }
@@ -253,37 +257,60 @@ ORDER BY
         // update custom setting
         function update() {
             if ( $_SERVER[ 'REQUEST_METHOD' ] == 'POST' && isset( $_POST[ '_ebnonce' ] ) ) {
-
                 // check nonce
                 if ( !wp_verify_nonce( $_POST[ '_ebnonce' ], $this->eb_plugin_nonce ) ) {
                     wp_die( '404 not found!' );
                 }
+                //print_r( $_POST );
+                //die( 'df dhd' );
 
-
-                // print_r( $_POST );
+                //
+                $arr_email_sanitize = [
+                    '_eff_email'
+                ];
+                $arr_textarea_sanitize = [
+                    '_eff_find_and_replace'
+                ];
 
                 //
                 foreach ( $_POST as $k => $v ) {
+                    $v = trim( $v );
+
                     // only update field by efm
                     if ( substr( $k, 0, 5 ) == '_eff_' ) {
-
                         // add prefix key to option key
                         $key = $this->eb_plugin_prefix_option . substr( $k, 5 );
                         // echo $k . "\n";
 
                         //
+                        if ( $v != '' ) {
+                            $v = stripslashes( stripslashes( stripslashes( $v ) ) );
+
+                            //
+                            if ( in_array( $k, $arr_email_sanitize ) ) {
+                                if ( !is_email( $v ) ) {
+                                    $v = '';
+                                } else {
+                                    $v = sanitize_email( $v );
+                                }
+                            } else if ( in_array( $k, $arr_textarea_sanitize ) ) {
+                                $v = sanitize_textarea_field( $v );
+                            } else {
+                                $v = sanitize_text_field( $v );
+                            }
+                        }
+
+                        //
                         delete_option( $key );
-
-                        //
-                        $v = stripslashes( stripslashes( stripslashes( $v ) ) );
-
-                        //
-                        $v = esc_html( $v );
-                        $v = sanitize_text_field( $v );
-
-                        //
                         add_option( $key, $v, '', 'no' );
                         //add_option ( $key, $v );
+                    }
+                    // update admin email
+                    else if ( $k == 'admin_email' ) {
+                        if ( $v != '' && is_email( $v ) ) {
+                            $v = sanitize_email( $v );
+                            update_option( $k, $v );
+                        }
                     }
                 }
 
@@ -416,6 +443,7 @@ function EFF_replace_to_echbay_content( $str, $arr = '' ) {
     $arr .= "\n" . get_option( '___EFF___find_and_replace' );
     $arr = trim( $arr );
     $arr = explode( "\n", $arr );
+    //print_r( $arr );
 
     // bắt đầu thay
     foreach ( $arr as $v ) {
@@ -438,9 +466,17 @@ function EFF_replace_for_echbay_tmp( $str, $custom_arr = [] ) {
         $str = str_replace( '{tmp.' . $k . '}', $v, $str );
     }
 
+    //
+    $key = '___EFF___';
+
     // default
     $arr = [
         'global-footer-copyright' => '<div class="global-footer-copyright">Bản quyền &copy; ' . date( 'Y' ) . ' <span>' . get_option( 'blogname' ) . '</span> - Toàn bộ phiên bản. <span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span></div>',
+        'admin_email' => get_option( 'admin_email' ),
+
+        //
+        'cf_email' => get_option( $key . 'email' ),
+        'cf_hotline' => get_option( $key . 'hotline' ),
     ];
     foreach ( $arr as $k => $v ) {
         $str = str_replace( '{tmp.' . $k . '}', $v, $str );
