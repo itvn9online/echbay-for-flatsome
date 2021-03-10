@@ -29,3 +29,26 @@
 .eff .medium {
     font-size: 15px;
 }
+.eff input {
+    max-width: 250px;
+}
+/* normal */
+.eff input.n {
+    max-width: 333px;
+}
+/* medium */
+.eff input.m {
+    max-width: 666px;
+}
+/* large */
+.eff input.l {
+    max-width: 999px;
+}
+/* */
+.eff .no-td-padding td, .eff .no-td-padding th {
+    padding-top: 0;
+}
+.eff .no-td-padding input {
+    min-height: 25px;
+    line-height: normal;
+}

@@ -3,3 +3,10 @@ if (document.domain == 'localhost' && typeof jQuery == 'function') {
         height: 600
     });
 }
+
+//
+jQuery('.click-select-this-text').focus(function () {
+    jQuery(this).select();
+}).attr({
+    'title': 'Copy this text and paste to Port or Page'
+});

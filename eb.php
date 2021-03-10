@@ -464,24 +464,37 @@ function EFF_replace_for_echbay_tmp( $str, $custom_arr = [] ) {
         'admin_email' => get_option( 'admin_email' ),
 
         //'global-footer-copyright' => '<div class="global-footer-copyright">Bản quyền &copy; ' . date( 'Y' ) . ' <span>' . get_option( 'blogname' ) . '</span> - Toàn bộ phiên bản. <span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span></div>',
-
-        //
         'copyright' => get_option( $key . 'copyright' ),
         'author' => get_option( $key . 'author' ),
-        'cf_email' => get_option( $key . 'email' ),
-        'cf_hotline' => get_option( $key . 'hotline' ),
+
+        //
+        'email' => get_option( $key . 'email' ),
+        'hotline' => get_option( $key . 'hotline' ),
+        'phone' => get_option( $key . 'phone' ),
+        'company' => get_option( $key . 'company' ),
+        'address' => get_option( $key . 'address' ),
+        'fax' => get_option( $key . 'fax' ),
     ];
+
+    //
+    foreach ( $arr as $k => $v ) {
+        if ( $v == '' && isset( $default_setting[ $k ] ) ) {
+            $arr[ $k ] = $default_setting[ $k ];
+        }
+    }
+    /*
     if ( $arr[ 'copyright' ] == '' ) {
         $arr[ 'copyright' ] = $default_setting[ 'copyright' ];
     }
     if ( $arr[ 'author' ] == '' ) {
         $arr[ 'author' ] = $default_setting[ 'author' ];
     }
+    */
     $arr[ 'global-footer-copyright' ] = '<div class="global-footer-copyright">' . str_replace( '%current_year%', date( 'Y' ), str_replace( '%blogname%', get_option( 'blogname' ), $arr[ 'copyright' ] ) ) . ' ' . $arr[ 'author' ] . '</div>';
 
     // replace template content
     foreach ( $arr as $k => $v ) {
-        $str = str_replace( '{tmp.' . $k . '}', $v, $str );
+        $str = str_replace( '{tmp.' . $key . $k . '}', $v, $str );
     }
 
     //
@@ -489,14 +502,19 @@ function EFF_replace_for_echbay_tmp( $str, $custom_arr = [] ) {
 }
 
 function EFF_default_setting() {
+    $admin_email = get_option( 'admin_email' );
+
+    //
     return array(
         'find_and_replace' => '',
-        'admin_email' => get_option( 'admin_email' ),
-        //'admin_email' => '',
-        'email' => 'admin@' . $_SERVER[ 'HTTP_HOST' ],
-        //'email' => '',
+
+        'admin_email' => $admin_email,
+
         'copyright' => 'Bản quyền &copy; %current_year% <span>%blogname%</span> - Toàn bộ phiên bản.',
         'author' => '<span class="powered-by-echbay">Cung cấp bởi <a href="https://echbay.com/" title="Cung cấp bởi ẾchBay.com - Thiết kế web chuyên nghiệp" target="_blank" rel="nofollow">EchBay.com</a></span>',
+
+        //'email' => 'admin@' . $_SERVER[ 'HTTP_HOST' ],
+        'email' => $admin_email,
         'hotline' => '',
         'phone' => '',
         'company' => '',
