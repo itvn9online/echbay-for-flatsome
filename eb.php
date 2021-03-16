@@ -382,6 +382,14 @@ try {
 
             return $temp;
         }
+
+
+        function add_js_check_token() {
+            echo '<link rel="stylesheet" href="' . $this->eb_plugin_url . 'eff_admin.css?v=' . $this->eb_plugin_media_version . '" type="text/css" media="all" />';
+            
+            echo '<script type="text/javascript"></script>';
+            echo '<script type="text/javascript" src="' . $this->eb_plugin_url . 'eff_admin.js?v=' . $this->eb_plugin_media_version . '"></script>';
+        }
     } // end my class
 } // end check class exist
 
@@ -494,8 +502,13 @@ function EFF_replace_for_echbay_tmp( $str, $custom_arr = [] ) {
 
     // replace template content
     foreach ( $arr as $k => $v ) {
-        $str = str_replace( '{tmp.' . $key . $k . '}', $v, $str );
+        //$str = str_replace( '{tmp.' . $key . $k . '}', $v, $str );
+        //$str = str_replace( '{tmp.' . $k . '}', $v, $str );
+        
+        $str = str_replace( '%tmp.' . $key . $k . '%', $v, $str );
+        $str = str_replace( '%tmp.' . $k . '%', $v, $str );
     }
+    $str = str_replace( ' href="#"', ' href="javascript:;"', $str );
 
     //
     return $str;
@@ -530,11 +543,19 @@ function EFF_default_setting() {
 //
 $EFF_func = new EFF_Actions_Module();
 
+function EFF_admin_head() {
+    global $EFF_func;
+
+    $EFF_func->add_js_check_token();
+}
+
 // load custom value in database
 $EFF_func->load();
 
 // check and call function for admin
 if ( is_admin() ) {
+    add_action( 'admin_head', 'EFF_admin_head', 99 );
+    
     add_action( 'admin_menu', 'EFF_add_menu_setting_to_admin_menu' );
 
 

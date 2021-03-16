@@ -5,7 +5,7 @@ Plugin Facebook page: https://www.facebook.com/webgiare.org
 Author: Dao Quoc Dai
 Author URI: https://www.facebook.com/ech.bay
 Text Domain: echbayefm
-Tags: echbay, webgiare
+Tags: echbay, webgiare, flatsome, woocommerce, replace wordpress content
 Requires at least: 4.8
 Tested up to: 5.7
 Stable tag: 1.0.0
